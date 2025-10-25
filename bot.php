@@ -1,47 +1,33 @@
 <?php
 
- $input = file_get_contents('php://input');
+$input = file_get_contents('php://input');
+$update = json_decode($input);
 
- $update = json_decode($input);
+// Se não tiver update válido, encerra o script
+if (!$update) {
+    exit;
+}
 
- $message = $update->message;
- 
- $chat_id = $message->chat->id;
- 
- $message_id = $update->message->message_id;
- 
- $tipo = $message->chat->type;
- 
- $texto = $message->text;
- 
- $id = $message->from->id;
- 
- $isbot = $message->from->is_bot;
- 
- if($message->from->is_premium){
-   
-     $ispremium = "sim";
-     
- }else{
-   
-     $ispremium = "não";
-     
- }
- $nome = $message->from->first_name;
- 
- $usuario = $message->chat->username;
- 
- $data = $update->callback_query->data;
- 
- $query_message_id = $update->callback_query->message->message_id;
- 
- $query_chat_id = $update->callback_query->message->chat->id;
- 
- $query_usuario = $update->callback_query->message->chat->username;
- 
- $query_nome = $update->callback_query->message->chat->first_name;
- 
- $query_id = $update->callback_query->id;
+// Mensagem
+$message = $update->message ?? null;
+$chat_id = $message->chat->id ?? null;
+$message_id = $message->message_id ?? null;
+$tipo = $message->chat->type ?? null;
+$texto = $message->text ?? '';
+$id = $message->from->id ?? null;
+$isbot = $message->from->is_bot ?? null;
+$ispremium = $message->from->is_premium ?? false;
+$nome = $message->from->first_name ?? '';
+$usuario = $message->chat->username ?? '';
+
+// Callback query
+$callback_query = $update->callback_query ?? null;
+$data = $callback_query->data ?? null;
+$query_message_id = $callback_query->message->message_id ?? null;
+$query_chat_id = $callback_query->message->chat->id ?? null;
+$query_usuario = $callback_query->message->chat->username ?? null;
+$query_nome = $callback_query->message->chat->first_name ?? null;
+$query_id = $callback_query->id ?? null;
 
 function bot($method, $parameters) {
      $token = "8440055544:AAHAtl7W4ui6PtHb1Uasuy9PD2-pwzLJeRI"; // 
